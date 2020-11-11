@@ -17,7 +17,7 @@ class Request{
             $this->controller=$this->get('controller')."Controller";
         }
         if($this->get('module') !=null){
-            $this->controller=$this->get('module');
+            $this->module=$this->get('module');
         }
     }
 }

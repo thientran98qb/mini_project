@@ -1,0 +1,28 @@
+body{
+    background-color: rgb(245, 238, 238);
+}
+.wrapper {
+    padding: 20px;
+}
+.logo{
+    border-right: 1px solid wheat;
+    padding: 0 10px;
+    font-size: 20px;
+    font-weight: 600;;
+}
+
+.dropdown-menu{
+    background-color: blue;
+    top: 40px;
+}
+.dropdown-item{
+    color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #fff;
+}
+.dropdown-item:hover{
+    background-color: lightsteelblue;
+}
+.list_product{
+    background-color: #fff;
+}

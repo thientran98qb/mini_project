@@ -1,0 +1,23 @@
+body{
+    background-color: sandybrown;
+}
+.form__login{
+    border: 1px solid white;
+    padding: 30px;
+    background-color: white;
+    border-radius: 5px;
+    position: absolute;
+    width: 320px;
+    min-height: 420px;
+    top: 50%;
+    left:  50%;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+}
+.error{
+    color: red;
+    font-weight: 600;
+}
+#error{
+    color: red;
+}
