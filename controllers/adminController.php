@@ -45,10 +45,15 @@ class adminController extends Controller{
             }else{
                 $userLogin=$this->AdminModel->checkUser($username,$password);
                 if($userLogin>0){
+                    if(isset($_POST['remember'])){
+                        $fullname_login=$this->AdminModel->getUserLogin($userLogin);
+                        setcookie('login',$fullname_login['user_fullname'],time()+60,'/');
+                        unset($_SESSION['fullname']);
+                    }
                     $fullname_login=$this->AdminModel->getUserLogin($userLogin);
                     $_SESSION['isLogin']=true;
                     $_SESSION['fullname']=$fullname_login['user_fullname'];
-                    header("Location: .?controller=admin&module=home");
+                    header("Location: .?controller=admin&module=home");             
                 }else{
                     $error['login_error']="Username or Password not match";
                     $this->loadView('login',['error'=>$error],'admin');
