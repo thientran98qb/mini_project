@@ -34,7 +34,7 @@
           Category Manage
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">View All Category</a>
+            <a class="dropdown-item" href=".?controller=admin&module=displaycategory">View All Category</a>
             <a class="dropdown-item" href="#">Add Category</a>
         </div>
       </li>
@@ -44,7 +44,11 @@
       <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <div class="user_profile d-flex">
-        <p class="text-white p-2"><?php if(isset($_SESSION['fullname']))  echo $_SESSION['fullname']?></p>
+        <p class="text-white p-2">
+          <?php if(isset($_SESSION['fullname']))  echo $_SESSION['fullname'];?>
+
+          <?php if(isset($_COOKIE['login']))  echo $_COOKIE['login'];?>
+        </p>
         <a href=".?controller=admin&module=logout" class="text-white p-2 text-center">Logout</a>
     </div>
   </div>

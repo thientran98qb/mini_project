@@ -25,6 +25,6 @@ if(! method_exists($controller,$moduleName)){
     error404();
 }
 $controller->$moduleName();
-if($controllerName=="adminController" && $moduleName!='login' && $moduleName!='processLogin' && !isset($_SESSION['isLogin'])){
+if($controllerName=="adminController" && $moduleName!='login' && $moduleName!='processLogin' && !isset($_SESSION['isLogin'])&& !isset($_COOKIE['login'])){
     header("Location: .?controller=admin&module=login");
 }

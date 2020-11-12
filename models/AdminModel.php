@@ -5,7 +5,7 @@ class AdminModel extends Model{
         parent::__construct();
     }
     public function checkUser($username,$password){
-        $query="SELECT users.user_id FROM users WHERE user_name=:username AND user_pass=:userpass";
+        $query="SELECT users.user_id FROM users WHERE user_name=:username AND user_pass=:userpass AND role_id=1";
         $stmt=$this->conn->prepare($query);
         $stmt->bindValue(":username",$username);
         $stmt->bindValue(":userpass",$password);
@@ -27,5 +27,11 @@ class AdminModel extends Model{
             $row=[];
         }
         return $row;
+    }
+    public function getAllCategory(){
+        return $this->getAll("SELECT * FROM categories");
+    }
+    public function adddataCategory($data){
+        return $this->add($data,'categories');
     }
 }

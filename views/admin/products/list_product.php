@@ -1,4 +1,4 @@
-<?php include "layouts/header.php"; ?>
+<?php include DOCUMENT_ROOT."/views/admin/layouts/header.php"; ?>
 <div class="container">
     <div class="list_product p-3">
     <nav aria-label="breadcrumb">
@@ -64,4 +64,4 @@
         </div>
 
 </div>
-<?php include "layouts/footer.php"; ?>
+<?php include DOCUMENT_ROOT."/views/admin/layouts/footer.php"; ?>
