@@ -14,23 +14,19 @@
     <div class="container">
         <div class="area__login">
             <div class="form__login">
-                <p id="error_username"></p>
+                <p id="error"><?php echo put_error('login_error'); ?></p>
                 <h3>Login Website</h3>
                 <form action=".?controller=admin&module=processLogin" method="post" id="form_Login">
                     <div class="form-group">
                         <label for="">Username</label>
-                        <input type="text" name="username" value="" id="username" class="form-control">
-                            <?php if(isset($error['error_username']) ){ ?>
-                                <p id="error"><?php echo $error['error_username']; ?></p>
-                            <?php } ?>
+                        <input type="text" name="username" value="<?php echo put_value('username'); ?>" id="username" class="form-control">
+                        <p id="error"><?php echo put_error('error_username'); ?></p>
                         </p>
                     </div>
                     <div class="form-group">
                         <label for="">Password</label>
-                        <input type="password" name="password" value="" class="form-control" id="password">
-                        <?php if(isset($error['error_password']) ){ ?>
-                                <p id="error"><?php echo $error['error_password']; ?></p>
-                            <?php } ?>
+                        <input type="password" name="password" value="<?php echo put_value('password'); ?>" class="form-control" id="password">
+                        <p id="error"><?php echo put_error('error_password'); ?></p>
                     </div>
                     <div class="form-group">
                         <input type="checkbox" name="remember" id="rememberMe">

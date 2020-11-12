@@ -24,4 +24,10 @@ class Controller{
         require "models/".$modelName.".php";
         $this->$modelName=new $modelName();
     }
+    protected function loadLib($libName){
+        if(!file_exists("library/".$libName.".php")){
+            error404();
+        }
+        require "library/".$libName.".php";
+    }
 }

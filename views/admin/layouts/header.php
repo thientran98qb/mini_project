@@ -44,8 +44,8 @@
       <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <div class="user_profile d-flex">
-        <p class="text-white p-2">Thien Tran</p>
-        <a href="" class="text-white p-2 text-center">Logout</a>
+        <p class="text-white p-2"><?php if(isset($_SESSION['fullname']))  echo $_SESSION['fullname']?></p>
+        <a href=".?controller=admin&module=logout" class="text-white p-2 text-center">Logout</a>
     </div>
   </div>
 </nav>
