@@ -34,4 +34,17 @@ class AdminModel extends Model{
     public function adddataCategory($data){
         return $this->add($data,'categories');
     }
+    public function updateCategoryy($status,$id){
+        $query="UPDATE categories SET status=:statuss WHERE category_id=:id";
+        $stmt=$this->conn->prepare($query);
+        $stmt->bindValue(":statuss", $status, PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, PDO::PARAM_STR);
+        $stmt->execute();
+    }
+    public function getDetailCategory($id){
+        return $this->getById("SELECT * FROM categories WHERE category_id=$id");
+    }
+    public function deleteCategory($id){
+        return $this->delete('categories','category_id',$id);
+    }
 }

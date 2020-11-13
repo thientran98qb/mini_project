@@ -72,11 +72,11 @@ class adminController extends Controller{
     function displayproduct(){
         $this->loadView('list_product',[],'admin/products');
     }
+     /*======================Process Category CRUD================*/
     function displaycategory(){
         $category=$this->AdminModel->getAllCategory();
         $this->loadView('list_category',['category'=>$category],'admin/category');
     }
-    /*======================Process Manager CRUD================*/
     function addCategroy(){
         $nameCategory=isset($_POST['category_name']) ? $_POST['category_name'] : '';
         $status=isset($_POST['status']) ? 0 : 1;
@@ -91,7 +91,27 @@ class adminController extends Controller{
             echo json_encode(['success'=>'Thanh Cong']);
         }else{
             echo json_encode(['failure'=>'That Bai']);
-        }
-        
+        }   
     }
+    function changeStatusCategory(){
+        $idCatee= $_GET['id'];
+        $status=$_GET['tt'];
+        $this->AdminModel->updateCategoryy($status,$idCatee);
+        echo json_encode(['update'=>"Update Status Successfully"]);
+    }
+    function viewCategoryAjax(){
+        $category=$this->AdminModel->getAllCategory();
+        echo json_encode(['category'=>$category]);
+    }
+    function viewDetailCategory(){
+        $id=$_GET['id'];
+        $row=$this->AdminModel->getDetailCategory($id);
+        echo json_encode(['row'=>$row]);
+    }
+    function deleteCategoryy(){
+        $id=$_GET['idCate'];
+        $flag=$this->AdminModel->deleteCategory($id);
+        echo json_encode(['delete'=>$flag]);
+    }
+    /*========================END Category=============================== */
 }

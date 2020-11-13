@@ -77,8 +77,8 @@ class Model{
         }
         return $result;
     }
-    protected function delete($table,$id){
-        $query="DELETE FROM $table WHERE $table"."_id=:id";
+    protected function delete($table,$id_table,$id){
+        $query="DELETE FROM $table WHERE $id_table=:id";
         $stmt=$this->conn->prepare($query);
         try {
             $stmt->execute([':id' => $id]);

@@ -8,10 +8,15 @@
         </ol>
     </nav>
         <div class="p-2">
-            <button href="" data-toggle="modal" data-target="#categoryModal" class="btn btn-primary p-2">Add Category</button>
+            <button href="" data-toggle="modal" data-target="#categoryModal" id="btn-add" class="btn btn-primary p-2">Add Category</button>
+        </div>
+        <div class="alert alert-success text-center message" role="alert" style="display: none;">
+
         </div>
         <?php require "addform.php"; ?>
-        <table class="table"  id="userstable">
+
+        <?php require "detail.php"; ?>
+        <table class="table"  id="categorytable">
         <thead>
             <tr>
             <th scope="col">STT</th>
@@ -21,19 +26,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php $i=0; ?>
-            <?php foreach ($category as $key => $value) { ?>        
-            <tr>
-                <td class="align-middle"><?php echo ++$i; ?></td>
-                <td class="align-middle"><?php echo $value['category_name']; ?></td>
-                <td class="align-middle"><?php echo $value['status']; ?></td>
-                <td class="align-middle">
-                <a href="#" class="btn btn-success mr-3 profile" data-toggle="modal" data-target="#userViewModal" title="Prfile"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>
-                <a href="#" class="btn btn-warning mr-3 edituser" data-toggle="modal" data-target="#userModal" title="Edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                <a href="#" class="btn btn-danger deleteuser" data-userid="14" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
-                </td>
-            </tr>
-            <?php } ?>
+            
         </tbody>
         </table><!-- table -->  
     </div>
