@@ -6,7 +6,7 @@ $(document).ready(function(){
                 <td class="align-middle">${i}</td>
                 <td class="align-middle">${category['category_name']}</td>
                 <td class="align-middle">
-                    <input type="checkbox"  class="statusChange" data-id=${category['category_id']}  ${ (category['status'] == 1) ? "checked" : "" }  data-toggle="toggle" data-on="Active" data-off="NonActive" data-onstyle="info" data-offstyle="danger">
+                    <input type="checkbox" class="statusChange" data-id=${category['category_id']}  ${ (category['status'] == 1) ? "checked" : "" }  data-toggle="toggle" data-on="Active" data-off="NonActive" data-onstyle="info" data-offstyle="danger">
                 </td>
                 <td class="align-middle">
                 <a href="#" class="btn btn-success mr-3 profile" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#categoryViewModal" title="Prfile"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>
@@ -35,6 +35,7 @@ $(document).ready(function(){
     }
     $(document).on("submit",'#addform',function(e){
         e.preventDefault();
+        var ms=$("#category_id").val()!='' ? 'Updated success' : 'Add new success' ;
         $.ajax({
             url:".?controller=admin&module=addCategroy",
             type:"POST",
@@ -44,12 +45,17 @@ $(document).ready(function(){
             contentType: false, 
             success:function(rows){
                 Swal.fire(
-                    'Add new category success!',
+                    ms,
                     'You clicked the button!',
                     'success'
                 )
                 $("#categoryModal").modal("hide");
                 load();
+
+                $("#addform")[0].reset();
+            },
+            error:function(){
+                console.log('error');
             }
         });
     });
@@ -140,6 +146,7 @@ $(document).ready(function(){
         });
     });
     $(document).on("click",".editCategory",function(){
+        $("#statuss").removeAttr("checked","checked");
         id=$(this).data("categoryid");
         $.ajax({
             url:".?controller=admin&module=viewDetailCategory",
@@ -147,14 +154,18 @@ $(document).ready(function(){
             dataType:"JSON",
             data:{id:id},
             success:function(result){
-                $("#category_name").val(result.row.category_name);
-                if(result.row.parent_id==0){
-                    $("#root").attr("selected","selected");
+                if(result){
+                    $("#category_name").val(result.row.category_name);
+                    if(result.row.parent_id==0){
+                        $("#root").attr("selected","selected");
+                    }
+                    if(result.row.status==1){
+                        $("#status").attr("checked","checked");
+                    }else{
+                        $("#status").removeAttr("checked","checked");
+                    }
+                    $("#category_id").val(result.row.category_id);
                 }
-                if(result.row.status==1){
-                    $("#status").attr("checked","checked");
-                }
-                $("#category_id").val(result.row.category_id);
             },
             error:function(){
 

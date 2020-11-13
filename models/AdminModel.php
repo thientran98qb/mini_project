@@ -47,4 +47,7 @@ class AdminModel extends Model{
     public function deleteCategory($id){
         return $this->delete('categories','category_id',$id);
     }
+    public function updateCate($data,$id){
+        $this->update($data,'categories','category_id',$id);
+    }
 }

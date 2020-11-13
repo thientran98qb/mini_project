@@ -78,20 +78,21 @@ class adminController extends Controller{
         $this->loadView('list_category',['category'=>$category],'admin/category');
     }
     function addCategroy(){
+        $idCategory=$_POST['category_id'];
         $nameCategory=isset($_POST['category_name']) ? $_POST['category_name'] : '';
-        $status=isset($_POST['status']) ? 0 : 1;
+        $status=isset($_POST['status']) ? 1 : 0;
         $parent_id=isset($_POST['category-root']) ? $_POST['category-root'] :'';
         $data=[
             'category_name'=>$nameCategory,
             'status'=>$status,
             'parent_id'=>$parent_id
         ];
-        $row=$this->AdminModel->adddataCategory($data);
-        if($row>0){
-            echo json_encode(['success'=>'Thanh Cong']);
+        if($idCategory!=''){
+            $this->AdminModel->updateCate($data,$idCategory);
         }else{
-            echo json_encode(['failure'=>'That Bai']);
-        }   
+            $row=$this->AdminModel->adddataCategory($data);
+        }
+        echo json_encode(['flag'=>true]); 
     }
     function changeStatusCategory(){
         $idCatee= $_GET['id'];
@@ -106,7 +107,7 @@ class adminController extends Controller{
     function viewDetailCategory(){
         $id=$_GET['id'];
         $row=$this->AdminModel->getDetailCategory($id);
-        echo json_encode(['row'=>$row]);
+        echo json_encode(['row'=>$row,'id'=>$id]);
     }
     function deleteCategoryy(){
         $id=$_GET['idCate'];

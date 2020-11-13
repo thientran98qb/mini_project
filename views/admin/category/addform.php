@@ -29,7 +29,7 @@
                 <label for="recipient-name" class="col-form-label">Status:</label>
                 <div class="input-group mb-3">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="status" name="status" value="option1">
+                    <input class="form-check-input" type="checkbox" id="status" name="status">
                     <label class="form-check-label" for="status">Active</label>
                 </div>
                 </div>

@@ -38,13 +38,13 @@ class Model{
             $this->conn->rollBack();
         }
     }
-    protected function update($data,$table,$id){
+    protected function update($data,$table,$id_table,$id){
         $values='';
         foreach ($data as $key => $value) {
             $values.=','.$key.'='.':'.$key;
         }
         $newValue=substr($values,1);
-        $query="UPDATE $table SET $newValue WHERE $table".'_'."id=:id";
+        $query="UPDATE $table SET $newValue WHERE $id_table=:id";
         // echo $query;
         $stmt=$this->conn->prepare($query);
         try {
