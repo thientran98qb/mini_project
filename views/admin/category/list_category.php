@@ -14,7 +14,6 @@
 
         </div>
         <?php require "addform.php"; ?>
-
         <?php require "detail.php"; ?>
         <table class="table"  id="categorytable">
         <thead>

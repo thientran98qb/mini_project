@@ -13,7 +13,7 @@
                 <label for="recipient-name" class="col-form-label">Category Name:</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <span class="input-group-text" ><i class="fa fa-user-circle-o" aria-hidden="true"></i>
                     </div>
                     <input type="text" class="form-control" id="category_name" name="category_name" required="required">
                 </div>
@@ -21,8 +21,8 @@
             <div class="form-group">
                 <label for="category-root">Category Root</label>
                 <select class="form-control" name="category-root" id="category-root">
-                    <option selected disabled>Select category root</option>
-                    <option value="0">root</option>
+                    <option selected  id="default">Select category root</option>
+                    <option value="0" id="root">root</option>
                 </select>
             </div>
             <div class="form-group">
@@ -38,6 +38,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-success" id="addButton">Submit</button>
+            <input type="hidden" name="category_id" id="category_id" value="">
         </div>
       </form>
     </div>

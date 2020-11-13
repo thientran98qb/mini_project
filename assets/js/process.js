@@ -6,11 +6,11 @@ $(document).ready(function(){
                 <td class="align-middle">${i}</td>
                 <td class="align-middle">${category['category_name']}</td>
                 <td class="align-middle">
-                    <input type="checkbox"  class="statusChange" data-id=${category['category_id']} data-categoryid="${category['status']}"  ${ (category['status'] == 1) ? "checked" : "" }  data-toggle="toggle" data-on="Active" data-off="NonActive" data-onstyle="info" data-offstyle="danger">
+                    <input type="checkbox"  class="statusChange" data-id=${category['category_id']}  ${ (category['status'] == 1) ? "checked" : "" }  data-toggle="toggle" data-on="Active" data-off="NonActive" data-onstyle="info" data-offstyle="danger">
                 </td>
                 <td class="align-middle">
                 <a href="#" class="btn btn-success mr-3 profile" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#categoryViewModal" title="Prfile"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>
-                <a href="#" class="btn btn-warning mr-3 edituser" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#userModal" title="Edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                <a href="#" class="btn btn-warning mr-3 editCategory" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#categoryModal" title="Edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>
                 <a href="#" class="btn btn-danger deletecategory" data-categoryid="${category['category_id']}" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                 </td>
         </tr>
@@ -21,13 +21,14 @@ $(document).ready(function(){
         $.ajax({
             url:".?controller=admin&module=viewCategoryAjax",
             type:"GET",
-            dataType:"JSON",
+            dataType:"json",
             data:{},
             success:function(result){
                 var rows="";
                 $.each(result.category,function(index,value){
                     rows+=getRow(value,index);           
                 });
+                
                 $("#categorytable tbody").html(rows)
             }
         });
@@ -137,9 +138,35 @@ $(document).ready(function(){
               })
             }
         });
-    })
+    });
+    $(document).on("click",".editCategory",function(){
+        id=$(this).data("categoryid");
+        $.ajax({
+            url:".?controller=admin&module=viewDetailCategory",
+            type:"GET",
+            dataType:"JSON",
+            data:{id:id},
+            success:function(result){
+                $("#category_name").val(result.row.category_name);
+                if(result.row.parent_id==0){
+                    $("#root").attr("selected","selected");
+                }
+                if(result.row.status==1){
+                    $("#status").attr("checked","checked");
+                }
+                $("#category_id").val(result.row.category_id);
+            },
+            error:function(){
+
+            }
+        });
+    });
     $(document).on("click","#btn-add",function(){
         $("#addform")[0].reset();
+        $("#root").removeAttr("selected");
+        $("#default").attr("selected");
+        $("#status").removeAttr("checked","checked");
+        $("#category_id").val("");
     });
     load();
 });
