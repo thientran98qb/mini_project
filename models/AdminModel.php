@@ -60,4 +60,13 @@ class AdminModel extends Model{
     public function insertProduct($data){
         return $this->add($data,'products');
     }
+    public function detailProductt($product_id){
+        return $this->getById("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id WHERE products.product_id=$product_id");
+    }
+    public function deleteProductById($product_id){
+        return $this->delete('products','product_id',$product_id);
+    }
+    public function updateProduct($data,$id){
+        $this->update($data,'products','product_id',$id);
+    }
 }

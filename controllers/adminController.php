@@ -119,19 +119,33 @@ class adminController extends Controller{
     /*========================END Category=============================== */
     /* ====================== Process Product ============================ */
     function displayproduct(){
+        if(isset($_GET['alert'])){
+           $alert=$_GET['alert']; 
+        }else{
+            $alert='';
+        }
         $products=$this->AdminModel->showAllProduct();
-        $this->loadView('list_product',['products'=>$products],'admin/products');
+        $this->loadView('list_product',['products'=>$products,'alert'=>$alert],'admin/products');
     }
     function addViewProduct(){
         $category=$this->AdminModel->getAllCategory();
         $this->loadView('add_product',['category'=>$category],'admin/products');
     }
+    function editViewProduct(){
+        $idProduct=$_GET['idproduct'];
+        $product=$this->AdminModel->detailProductt($idProduct);
+        $category=$this->AdminModel->getAllCategory();
+        $this->loadView('add_product',['category'=>$category,'product'=>$product],'admin/products');
+    }
     function processAddProduct(){
-        global $error,$alert,$product_name,$product_price,$product_price_sale,$product_desc,$product_content;
+        global $error,$alert,$product_name,$product_price,$product_price_sale,$product_desc,$product_content,$product_file;
         //B1 Validation data
         //B2 Process File 
         //B3 Write Model Process Insert Data
         if(isset($_POST['btn_submit'])){
+            if(isset($_POST['IdProduct'])){
+                $idProduct=$_POST['IdProduct'];
+            }
             $error=array();
             if(empty($_POST['product_name'])){
                 $error['product_name']="Product name not empty";
@@ -158,30 +172,71 @@ class adminController extends Controller{
             }else{
                 $product_price_sale=$_POST['product_price_sale'];
             }
-            $product_file=processFile('productimg');
-            if(!empty($error)){
-                $this->loadView('add_product',['error'=>$error],'admin/products');
+            if(empty($_POST['product_cate'])){
+                $error['product_cate']="Product_cate sale not empty";
             }else{
+                $product_cate=$_POST['product_cate'];
+            }
+            
+            if(!empty($error)){
+                $category=$this->AdminModel->getAllCategory();
+                $this->loadView('add_product',['error'=>$error,'category'=>$category],'admin/products');
+            }else{
+                
                 date_default_timezone_set('Asia/Ho_Chi_Minh');
                 $date = date('Y-m-d h:i:s', time());
-                $arr=[
-                    'product_name'=>$product_name,
-                    'product_img'=>$product_file,
-                    'product_content'=>$product_content,
-                    'product_description'=>$product_desc,
-                    'product_date_created'=>$date,
-                    'product_price'=>$product_price,
-                    'product_status'=>$_POST['product_status'],
-                    'product_sale_price'=>$product_price_sale,
-                    'category_id'=>$_POST['product_cate']
-                ];
-                $flag=$this->AdminModel->insertProduct($arr);
-                if($flag>0){
-                    $alert['success']="Insert Product Successfully";
-                    header("Location: .?controller=admin&module=displayproduct");
+                if(!empty($_FILES['productimg']['name'])){
+                    $product_file=processFile('productimg');
+                    $arr=[
+                        'product_name'=>$product_name,
+                        'product_img'=>$product_file,
+                        'product_content'=>$product_content,
+                        'product_description'=>$product_desc,
+                        'product_date_created'=>$date,
+                        'product_price'=>$product_price,
+                        'product_status'=>$_POST['product_status'],
+                        'product_sale_price'=>$product_price_sale,
+                        'category_id'=>$product_cate
+                    ];
                 }else{
-                    $alert['error']="Insert Product Defeat";
+                    $arr=[
+                        'product_name'=>$product_name,
+                        'product_content'=>$product_content,
+                        'product_description'=>$product_desc,
+                        'product_date_created'=>$date,
+                        'product_price'=>$product_price,
+                        'product_status'=>$_POST['product_status'],
+                        'product_sale_price'=>$product_price_sale,
+                        'category_id'=>$product_cate
+                    ];
                 }
+                if(isset($idProduct) && $idProduct!=''){
+                    $this->AdminModel->updateProduct($arr,$idProduct);
+                    header("Location: .?controller=admin&module=displayproduct&alert=Update Product Successfully");               
+                }else{
+                    $flag=$this->AdminModel->insertProduct($arr);
+                    if($flag>0){
+                        header("Location: .?controller=admin&module=displayproduct&alert=Insert Product Successfully");
+                    }else{
+                        $alert['error']="Insert Product Defeat";
+                    }
+                }    
+                echo json_encode(['alert'=>$alert]);
+            }
+        }
+    }
+    function detailProduct(){
+        $idProduct=$_GET['product_id'];
+        $product=$this->AdminModel->detailProductt($idProduct);
+        echo json_encode(['product'=>$product]);
+    }
+    function deleteProduct(){
+        $product_id=$_GET['product_id'];
+        $product=$this->AdminModel->detailProductt($product_id);
+        $delete=$this->AdminModel->deleteProductById($product_id);
+        if($delete===true){
+            if(unlink(getcwd().'/assets/uploads/'.$product['product_img'])){
+                echo json_encode(['flag'=>true]);
             }
         }
     }

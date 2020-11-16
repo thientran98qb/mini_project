@@ -7,8 +7,14 @@
             <li class="breadcrumb-item active" aria-current="page">Product</li>
         </ol>
     </nav>
-    <a href=".?controller=admin&module=addViewProduct" class="btn btn-primary">Add Product</a>
-        <table class="table table-hover"  id="userstable">
+    <?php if(isset($alert) && $alert!=''){ ?>
+        <div class="alert alert-success" role="alert">
+            <?php echo $alert; ?>
+        </div>
+    <?php }?>
+        <a href=".?controller=admin&module=addViewProduct" class="btn btn-primary">Add Product</a>
+        <?php if(!empty($products)) {?>
+        <table class="table table-hover table-bordered"  id="userstable">
         <thead>
             <tr>
             <th scope="col">Thumb</th>
@@ -39,15 +45,18 @@
                 </td>
                 <td class="align-middle"><?php echo $value['category_name']; ?></td>
                 <td class="align-middle">
-                    <a href="#" class="btn btn-success mr-1 profile" data-toggle="modal" data-target="#userViewModal" title="Prfile"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>
-                    <a href="#" class="btn btn-warning mr-1 edituser" data-toggle="modal" data-target="#userModal" title="Edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                    <a href="#" class="btn btn-danger deleteuser" data-userid="14" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+                    <a href="#" class="btn btn-success btn-sm detailProduct" data-toggle="modal" data-id="<?php echo $value['product_id']; ?>" data-target="#productViewModal" title="Prfile"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>
+                    <a href=".?controller=admin&module=editViewProduct&idproduct=<?php echo $value['product_id'];?>" class="btn btn-warning btn-sm edituser" title="Edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                    <a href="#" class="btn btn-danger btn-sm deleteProduct" data-id="<?php echo $value['product_id']; ?>" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                 </td>
             </tr>
             <?php } ?>
         </tbody>
         </table><!-- table -->  
-        </div>
-
+        <?php }else{?>
+            <h1>No records in table</h1>
+        <?php } ?>
+    </div>
+<?php require "detail_product.php"; ?>
 </div>
 <?php include DOCUMENT_ROOT."/views/admin/layouts/footer.php"; ?>

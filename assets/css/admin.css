@@ -38,3 +38,6 @@ body{
 }
 
 .img-thumbnail { width:80px!important;height: 80px;}
+td.align-middle {
+    padding: 8px;
+}

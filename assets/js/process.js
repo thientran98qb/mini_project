@@ -9,9 +9,9 @@ $(document).ready(function(){
                     <input type="checkbox" class="statusChange" data-id=${category['category_id']}  ${ (category['status'] == 1) ? "checked" : "" }  data-toggle="toggle" data-on="Active" data-off="NonActive" data-onstyle="info" data-offstyle="danger">
                 </td>
                 <td class="align-middle">
-                <a href="#" class="btn btn-success mr-3 profile" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#categoryViewModal" title="Prfile"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>
-                <a href="#" class="btn btn-warning mr-3 editCategory" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#categoryModal" title="Edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                <a href="#" class="btn btn-danger deletecategory" data-categoryid="${category['category_id']}" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+                <a href="#" class="btn btn-success btn-sm mr-3 profile" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#categoryViewModal" title="Prfile"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>
+                <a href="#" class="btn btn-warning btn-sm mr-3 editCategory" data-categoryid="${category['category_id']}" data-toggle="modal" data-target="#categoryModal" title="Edit"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+                <a href="#" class="btn btn-danger btn-sm deletecategory" data-categoryid="${category['category_id']}" title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
                 </td>
         </tr>
         `;
@@ -108,42 +108,42 @@ $(document).ready(function(){
     $(document).on("click",".deletecategory",function(e){
         idCatee=$(this).data("categoryid");
         console.log(idCatee)
-        $.ajax({
-            url:".?controller=admin&module=deleteCategoryy",
-            type:"GET",
-            dataType:"JSON",
-            data:{idCate:idCatee},
-            success:function(results){
-                if(results){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (!result.isConfirmed) return;
+            $.ajax({
+                url:".?controller=admin&module=deleteCategoryy",
+                type:"GET",
+                dataType:"JSON",
+                data:{idCate:idCatee},
+                success:function(results){
+                    if(results){
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                        load();
+                    }
+                },
+                error:function(){
                     Swal.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, delete it!'
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Your file has been deleted.',
-                                    'success'
-                                )
-                                load();
-                        }
-                      });
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                    footer: 'Record have constrain foreign key'
+                  })
                 }
-            },
-            error:function(){
-                Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-                footer: 'Record have constrain foreign key'
-              })
-            }
-        });
+            });
+          });
+        
     });
     $(document).on("click",".editCategory",function(){
         $("#statuss").removeAttr("checked","checked");
@@ -180,4 +180,76 @@ $(document).ready(function(){
         $("#category_id").val("");
     });
     load();
+    /*==============Process Product ===================*/
+    $(document).on("click",".detailProduct",function(){
+        let product_id=$(this).data('id');
+        console.log(product_id);
+        $.ajax({
+            url:".?controller=admin&module=detailProduct",
+            type:"GET",
+            dataType:"JSON",
+            data:{product_id:product_id},
+            success:function(result){
+                let str='';
+                str+=` <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <img src="assets/uploads/${result.product.product_img}" height="100px" width="100px" alt="" class="rounded responsive" />
+                </div>
+                <div class="col-sm-6 col-md-8">
+                    <h4 class="text-primary">${result.product.product_name}</h4>
+                    <p class="text-secondary mt-2 mb-2">
+                        ${result.product.product_description}
+                    </p>
+                    <p>Product Price: <span style="font-weight: 600;">${result.product.product_price} VND</span></p>
+                    <p>Product Price Sale: <span style="font-weight: 600;">${result.product.product_sale_price} VND</span></p>
+                    <p class="mt-2 mb-2">
+                        Category : ${result.product.category_name}
+                    </p>
+                    <p class="mt-2 mb-2">
+                        Date Created : ${result.product.product_date_created}
+                    </p>
+                </div>
+                </div>`;
+                $("#detailProductt").html(str);
+            },
+            error:function(){
+                console.log('error');
+            }
+        });
+    });
+    $(document).on("click",".deleteProduct",function(e){
+        e.preventDefault();
+        let product_id=$(this).data('id');
+        swal.fire({
+            title: "Are you sure?",
+            text: "You will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+            $.ajax({
+                url: ".?controller=admin&module=deleteProduct",
+                type: "GET",
+                data: {
+                    product_id:product_id
+                },
+                dataType: "JSON",
+                success: function (results) {
+                    if(results.flag==true){
+                        swal.fire("Done!", "It was succesfully deleted!", "success");
+                        setTimeout(function(){
+                            window.location.replace(".?controller=admin&module=displayproduct");
+                        },1500);
+                    } 
+                },
+                error: function () {
+                    swal.fire("Error deleting!", "Please try again", "error");
+                }
+            });
+        });
+        
+    })
 });

@@ -25,6 +25,7 @@
         }
     }
     function processFile($filename){
+        global $error;
         if(isset($_FILES[$filename])){
             //img : name,type ,tmp_name,size,error,
             $file=$_FILES[$filename];
@@ -45,18 +46,34 @@
                             return $pathFileEnd;
                         }
                     }else{
-                        echo "tail file not permission";
+                        $error['file']="tail file not permission";
                     }
                 }else{
-                    echo "File size very big";
+                    $error['file']="File size very big";
                 }
             }else{
-                echo "File error";
+                $error['file']="File error";
             }
         }else{
-            echo "FIle not found";
+            $error['file']="FIle not found";
         }
     }
     function processPrice($price,$t){
         return number_format($price).$t;
+    }
+    function pagination($page,$per_one_page){
+        $html="<ul class='pagination'>
+        <li class='page-item disabled'>
+          <a class='page-link' href='#' tabindex='-1'>Previous</a>
+        </li>
+        <li class='page-item'><a class='page-link' href='#'>1</a></li>
+        <li class='page-item active'>
+          <a class='page-link' href='#'>2 <span class='sr-only'>(current)</span></a>
+        </li>
+        <li class='page-item'><a class='page-link' href='#'>3</a></li>
+        <li class='page-item'>
+          <a class='page-link' href='#'>Next</a>
+        </li>
+      </ul>";
+      return $html;
     }
