@@ -1,13 +1,7 @@
 <?php include DOCUMENT_ROOT."/views/admin/layouts/header.php"; ?>
 <div class="container">
     <div class="list_product p-3">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Product</li>
-        </ol>
-    </nav>
-    <a href=".?controller=admin&module=addViewProduct" class="btn btn-primary">Add Product</a>
+    <?php if(!empty($products)){ ?>
         <table class="table table-hover"  id="userstable">
         <thead>
             <tr>
@@ -46,7 +40,10 @@
             </tr>
             <?php } ?>
         </tbody>
-        </table><!-- table -->  
+        </table><!-- table --> 
+    <?php }else { ?>
+        <p>No records in the table</p>
+    <?php }?> 
         </div>
 
 </div>

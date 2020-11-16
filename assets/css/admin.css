@@ -26,3 +26,15 @@ body{
 .list_product{
     background-color: #fff;
 }
+.area_add_form{
+    background-color: white;
+}
+.title_add_product{
+    font-size: 25px;
+    padding: 0 0 20px 10px;
+}
+#error{
+    color: red;
+}
+
+.img-thumbnail { width:80px!important;height: 80px;}

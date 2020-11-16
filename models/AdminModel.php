@@ -50,4 +50,14 @@ class AdminModel extends Model{
     public function updateCate($data,$id){
         $this->update($data,'categories','category_id',$id);
     }
+    public function showAllProductCategory($cate_id){
+        return $this->getAll("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id WHERE products.category_id=$cate_id");
+    }
+    /* Process Products */
+    public function showAllProduct(){
+        return $this->getAll("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id");
+    }
+    public function insertProduct($data){
+        return $this->add($data,'products');
+    }
 }

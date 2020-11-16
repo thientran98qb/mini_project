@@ -4,7 +4,7 @@ $(document).ready(function(){
         str+=`
         <tr>
                 <td class="align-middle">${i}</td>
-                <td class="align-middle">${category['category_name']}</td>
+                <td class="align-middle"><a href=".?controller=admin&module=showProductbyCategory&category_id=${category['category_id']}">${category['category_name']}</a></td>
                 <td class="align-middle">
                     <input type="checkbox" class="statusChange" data-id=${category['category_id']}  ${ (category['status'] == 1) ? "checked" : "" }  data-toggle="toggle" data-on="Active" data-off="NonActive" data-onstyle="info" data-offstyle="danger">
                 </td>

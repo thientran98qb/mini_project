@@ -69,9 +69,6 @@ class adminController extends Controller{
     function home(){
         $this->loadView('home',[],'admin');
     }
-    function displayproduct(){
-        $this->loadView('list_product',[],'admin/products');
-    }
      /*======================Process Category CRUD================*/
     function displaycategory(){
         $category=$this->AdminModel->getAllCategory();
@@ -114,5 +111,79 @@ class adminController extends Controller{
         $flag=$this->AdminModel->deleteCategory($id);
         echo json_encode(['delete'=>$flag]);
     }
+    function showProductbyCategory(){
+        $cateId=$_GET['category_id'];
+        $products=$this->AdminModel->showAllProductCategory($cateId);
+        $this->loadView('product_category',['products'=>$products],'admin/category');
+    }
     /*========================END Category=============================== */
+    /* ====================== Process Product ============================ */
+    function displayproduct(){
+        $products=$this->AdminModel->showAllProduct();
+        $this->loadView('list_product',['products'=>$products],'admin/products');
+    }
+    function addViewProduct(){
+        $category=$this->AdminModel->getAllCategory();
+        $this->loadView('add_product',['category'=>$category],'admin/products');
+    }
+    function processAddProduct(){
+        global $error,$alert,$product_name,$product_price,$product_price_sale,$product_desc,$product_content;
+        //B1 Validation data
+        //B2 Process File 
+        //B3 Write Model Process Insert Data
+        if(isset($_POST['btn_submit'])){
+            $error=array();
+            if(empty($_POST['product_name'])){
+                $error['product_name']="Product name not empty";
+            }else{
+                $product_name=$_POST['product_name'];
+            }
+            if(empty($_POST['product_desc'])){
+                $error['product_desc']="Product Desc not empty";
+            }else{
+                $product_desc=$_POST['product_desc'];
+            }
+            if(empty($_POST['product_content'])){
+                $error['product_content']="Product content not empty";
+            }else{
+                $product_content=$_POST['product_content'];
+            }
+            if(empty($_POST['product_price'])){
+                $error['product_price']="Product price not empty";
+            }else{
+                $product_price=$_POST['product_price'];
+            }
+            if(empty($_POST['product_price_sale'])){
+                $error['product_price_sale']="Product price sale not empty";
+            }else{
+                $product_price_sale=$_POST['product_price_sale'];
+            }
+            $product_file=processFile('productimg');
+            if(!empty($error)){
+                $this->loadView('add_product',['error'=>$error],'admin/products');
+            }else{
+                date_default_timezone_set('Asia/Ho_Chi_Minh');
+                $date = date('Y-m-d h:i:s', time());
+                $arr=[
+                    'product_name'=>$product_name,
+                    'product_img'=>$product_file,
+                    'product_content'=>$product_content,
+                    'product_description'=>$product_desc,
+                    'product_date_created'=>$date,
+                    'product_price'=>$product_price,
+                    'product_status'=>$_POST['product_status'],
+                    'product_sale_price'=>$product_price_sale,
+                    'category_id'=>$_POST['product_cate']
+                ];
+                $flag=$this->AdminModel->insertProduct($arr);
+                if($flag>0){
+                    $alert['success']="Insert Product Successfully";
+                    header("Location: .?controller=admin&module=displayproduct");
+                }else{
+                    $alert['error']="Insert Product Defeat";
+                }
+            }
+        }
+    }
+    /* ====================== End Product ============================ */
 }
