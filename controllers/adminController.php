@@ -124,8 +124,13 @@ class adminController extends Controller{
         }else{
             $alert='';
         }
-        $products=$this->AdminModel->showAllProduct();
-        $this->loadView('list_product',['products'=>$products,'alert'=>$alert],'admin/products');
+        $number_of_page=4;
+        $total_product=$this->AdminModel->countProduct();
+        $total_page=ceil($total_product/$number_of_page);
+        $page=isset($_GET['page']) ? $_GET['page'] : 1;
+        $start=($page-1)*$number_of_page;
+        $products=$this->AdminModel->showAllProduct($start,$number_of_page);
+        $this->loadView('list_product',['products'=>$products,'alert'=>$alert,'total_page'=>$total_page,'current_page'=>$page],'admin/products');
     }
     function addViewProduct(){
         $category=$this->AdminModel->getAllCategory();
@@ -167,7 +172,7 @@ class adminController extends Controller{
             }else{
                 $product_price=$_POST['product_price'];
             }
-            if(empty($_POST['product_price_sale'])){
+            if(empty($_POST['product_price_sale'])&& $_POST['product_price_sale']!=0){
                 $error['product_price_sale']="Product price sale not empty";
             }else{
                 $product_price_sale=$_POST['product_price_sale'];

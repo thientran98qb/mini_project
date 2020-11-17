@@ -59,21 +59,25 @@
         }
     }
     function processPrice($price,$t){
-        return number_format($price).$t;
+        return number_format($price).' '.$t;
     }
-    function pagination($page,$per_one_page){
-        $html="<ul class='pagination'>
-        <li class='page-item disabled'>
-          <a class='page-link' href='#' tabindex='-1'>Previous</a>
-        </li>
-        <li class='page-item'><a class='page-link' href='#'>1</a></li>
-        <li class='page-item active'>
-          <a class='page-link' href='#'>2 <span class='sr-only'>(current)</span></a>
-        </li>
-        <li class='page-item'><a class='page-link' href='#'>3</a></li>
-        <li class='page-item'>
-          <a class='page-link' href='#'>Next</a>
-        </li>
-      </ul>";
+    function pagination($total_page,$page,$url=""){
+        $prev=$page-1;
+        $next=$page+1;
+        $html="<ul class='pagination justify-content-end' id='list-pagenavi'>";
+        $disbale=($page==1) ? 'disabled' : '';
+        $html.="<li class='page-item $disbale'>
+          <a class='page-link' href='$url&page=$prev' tabindex='-1'>Previous</a>
+        </li>";
+        for($i=1;$i<=$total_page;$i++){
+            $active=($i==$page) ? 'active' : '';
+            $html.= "<li class='page-item $active'><a class='page-link' href='$url&page=$i'>$i</a></li>";
+        }
+        $disabledNext=($page==$total_page) ? 'disabled' : '';
+        $html.="
+        <li class='page-item $disabledNext'>
+          <a class='page-link' href='$url&page=$next'>Next</a>
+        </li>";
+        $html.="</ul>";
       return $html;
     }

@@ -24,9 +24,9 @@
                         <a href="./" title="" id="logo" class="fl-left">THIENTRAN STORE</a>
                         <div id="btn-respon" class="fl-right"><i class="fa fa-bars" aria-hidden="true"></i></div>
                         <div id="cart-wp" class="fl-right">
-                            <a href="?page=cart" title="" id="btn-cart">
+                            <a href="?module=showCart" title="" id="btn-cart">
                                 <span id="icon"><img src="assets/images/icon-cart.png" alt=""></span>
-                                <span id="num">5</span>
+                                <span id="num"><?php (isset($_SESSION['cart']['total_cart']['total_quantity'])) ? print_r($_SESSION['cart']['total_cart']['total_quantity']) : 0 ?></span>
                             </a>
                         </div>
                     </div>

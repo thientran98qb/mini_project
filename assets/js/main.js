@@ -33,4 +33,9 @@ $(document).ready(function () {
             $(this).parent('li').find('.sub-menu').slideDown();
         }
     });
+    $(document).on("change","#num-order",function(e){
+        number=$(this).val();
+        idPro=$("#productID").val();
+        $('.add-to-cart').attr('href',"?module=processCart&product_id="+idPro+"&number="+number);
+    });
 });

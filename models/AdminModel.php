@@ -54,8 +54,8 @@ class AdminModel extends Model{
         return $this->getAll("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id WHERE products.category_id=$cate_id");
     }
     /* Process Products */
-    public function showAllProduct(){
-        return $this->getAll("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id");
+    public function showAllProduct($start,$step){
+        return $this->getAll("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id ORDER BY products.product_id DESC LIMIT $start,$step");
     }
     public function insertProduct($data){
         return $this->add($data,'products');
@@ -68,5 +68,8 @@ class AdminModel extends Model{
     }
     public function updateProduct($data,$id){
         $this->update($data,'products','product_id',$id);
+    }
+    public function countProduct(){
+        return $this->getCount("products");
     }
 }

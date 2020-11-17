@@ -9,6 +9,7 @@
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="assets/reset.css" rel="stylesheet" type="text/css"/>
     <link href="assets/css/admin.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
     <title>Document</title>
 </head>
 <body>

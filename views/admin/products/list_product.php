@@ -53,6 +53,7 @@
             <?php } ?>
         </tbody>
         </table><!-- table -->  
+            <?php echo pagination($total_page,$current_page,'.?controller=admin&module=displayproduct'); ?>
         <?php }else{?>
             <h1>No records in table</h1>
         <?php } ?>

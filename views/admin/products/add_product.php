@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label for="product_price_sale">Product Price Sale</label>
-                <input type="number" min="1" step="any" class="form-control" id="product_price_sale" value="<?php if(isset($product['product_sale_price'])){
+                <input type="number" min="0" step="any" class="form-control" id="product_price_sale" value="<?php if(isset($product['product_sale_price'])){
                     echo $product['product_sale_price'];
                 }else{echo put_value('product_price_sale');} ?>" name="product_price_sale" />
                 <p id="error">

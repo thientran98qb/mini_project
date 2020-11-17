@@ -30,3 +30,7 @@
     padding: 5px 12px;
 }
 #pagenavi-wp #list-pagenavi li.active a, #pagenavi-wp #list-pagenavi li:hover a, #pagenavi-wp .section-detail > a:hover{ background: #b3b3b3;; color: #fff; border:1px solid #b3b3b3;}
+#pagenavi-wp #list-pagenavi .disabled{
+    pointer-events:none; 
+    opacity:0.6;       
+}

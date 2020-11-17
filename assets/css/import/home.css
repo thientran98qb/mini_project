@@ -17,6 +17,9 @@
     font-weight: normal;
     color: #c10000;
 }
+#main-menu-wp .list-item li a.side_bar_name:hover {
+    color: tomato;
+}
 .section-title{
     padding: 20px 0px;
     font-family: 'Roboto Medium';
