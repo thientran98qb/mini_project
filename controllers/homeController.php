@@ -44,7 +44,7 @@ class homeController extends Controller{
             $price=$product['product_price'];
         }
         if(isset($_SESSION['cart']['product']) && array_key_exists($product_id,$_SESSION['cart']['product'])){
-            $quantity=$_SESSION['cart']['product'][$product_id]['quantity']+1;
+            $quantity=$_SESSION['cart']['product'][$product_id]['quantity']+((isset($_GET['number'])) ? $_GET['number'] : 1);
         }else{
             $quantity=(isset($_GET['number'])) ? $_GET['number'] : 1;
         }
