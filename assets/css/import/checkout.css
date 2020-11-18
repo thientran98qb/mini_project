@@ -66,3 +66,7 @@ textarea{ min-height: 150px;}
     border-radius: 3px;
 }
 .place-order-wp button:hover{ background: #980000;}
+#error{
+    color: red;
+    font-weight: 600;
+}

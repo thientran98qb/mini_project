@@ -133,16 +133,12 @@ class homeController extends Controller{
             }else{
                 $tel=$_POST['tel'];
             }
-            if(empty($_POST['note'])){
-                $error['error_note']="Please enter note";
-            }else{
-                $note=$_POST['note'];
-            }
+            $note=$_POST['note'];
             $payments=$_POST['payment-method'];
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $date = date('Y-m-d h:i:s', time());
             if(!empty($error)){
-                $this->loadView('checkout',['error'=>$error]);
+                $this->checkout();
             }else{
                 $data=[
                     'customer_name'=>$fullname,

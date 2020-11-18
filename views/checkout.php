@@ -16,19 +16,24 @@
                                 <div class="detail">
                                     <div class="field-wp">
                                         <label>Họ tên</label>
-                                        <input type="text" name="fullname" id="fullname">
+                                        <input type="text" name="fullname" id="fullname" value="<?php echo put_value('fullname'); ?>">
+                                        <div id="error"> <?php echo put_error('error_fullname'); ?></div>
                                     </div>
+                                    
                                     <div class="field-wp">
                                         <label>Email</label>
-                                        <input type="email" name="email" id="email">
+                                        <input type="email" name="email" id="email" value="<?php echo put_value('email'); ?>">
+                                        <div id="error"> <?php echo put_error('error_email'); ?></div>
                                     </div>
                                     <div class="field-wp">
                                         <label>Địa chỉ nhận hàng</label>
-                                        <input type="text" name="address" id="address">
+                                        <input type="text" name="address" id="address" value="<?php echo put_value('address'); ?>">
+                                        <div id="error"> <?php echo put_error('error_address'); ?></div>
                                     </div>
                                     <div class="field-wp">
                                         <label>Số điện thoại</label>
-                                        <input type="tel" name="tel" id="tel">
+                                        <input type="tel" name="tel" id="tel" value="<?php echo put_value('tel'); ?>">
+                                        <div id="error"> <?php echo put_error('error_tel'); ?></div>
                                     </div>
                                     <div class="field-full-wp">
                                         <label>Ghi chú</label>
