@@ -36,9 +36,11 @@
                             </td>
                             <td><?php echo processPrice($value['product_price'],'VND'); ?></td>
                             <td>
-                                <input type="text" name="num-order" value="<?php echo $value['quantity']; ?>" class="num-order">
+                                <input type="number" name="num-order" min="1" data-id="<?php echo $value['product_id']; ?>" value="<?php echo $value['quantity']; ?>" class="num-order" >
                             </td>
-                            <td><?php echo processPrice($value['total_price_product'],'VND'); ?></td>
+                            <td>
+                                <p class="total_price_product<?php echo $value['product_id']; ?>"><?php echo processPrice($value['total_price_product'],'VND'); ?></p>
+                            </td>
                             <td>
                                 <a href="?module=deleteCartbyId&product_id=<?php echo $value['product_id']; ?>" title="" class="del-product"><i class="fa fa-trash-o"></i></a>
                             </td>
@@ -49,7 +51,7 @@
                         <tr>
                             <td colspan="7">
                                 <div class="clearfix">
-                                    <p id="total-price" class="fl-right">Tổng giá: <span><?php echo processPrice($total['total'],'VND'); ?></span></p>
+                                    <p class="fl-right">Tổng giá: <span id="total-price"><?php echo processPrice($total['total'],'VND'); ?></span></p>
                                 </div>
                             </td>
                         </tr>
@@ -57,8 +59,7 @@
                             <td colspan="7">
                                 <div class="clearfix">
                                     <div class="fl-right">
-                                        <a href="" title="" id="update-cart">Cập nhật giỏ hàng</a>
-                                        <a href="?page=checkout" title="" id="checkout-cart">Thanh toán</a>
+                                        <a href="?module=checkout" title="" id="checkout-cart">Thanh toán</a>
                                     </div>
                                 </div>
                             </td>

@@ -32,7 +32,11 @@ class Model{
             $stmt->execute($data);
             $lastInsertId=$this->conn->lastInsertId();
             $this->conn->commit();
-            return $lastInsertId;
+            if(!empty($lastInsertId)){
+                return $lastInsertId;
+            }else{
+                return true;
+            }
         } catch (PDOException $e) {
             echo $e->getMessage();
             $this->conn->rollBack();

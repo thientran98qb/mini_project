@@ -38,4 +38,23 @@ $(document).ready(function () {
         idPro=$("#productID").val();
         $('.add-to-cart').attr('href',"?module=processCart&product_id="+idPro+"&number="+number);
     });
+    $(document).on("change",".num-order",function(){
+        number=$(this).val();
+        product_id=$(this).data("id");
+        $.ajax({
+            url:".?module=changeNumberAjax",
+            type:"GET",
+            dataType:"JSON",
+            data:{numberr:number,product_id:product_id},
+            success:function(result){
+                $(".total_price_product"+product_id).html(result.total_product);
+                $("#total-price").html(result.total_order);
+                $("#num").html(result.sum);
+            },
+            error:function(){
+                console.log('error');
+            }
+        });
+        
+    });
 });

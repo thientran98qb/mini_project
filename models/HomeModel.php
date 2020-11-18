@@ -31,4 +31,16 @@ class HomeModel extends Model{
     public function getProductbyId($product_id){
         return $this->getById("SELECT * FROM products WHERE product_id=$product_id");
     }
+    public function addCustomer($dada){
+        return $this->add($dada,'customers');
+    }
+    public function addOrder($data){
+        return $this->add($data,'orderss');
+    }
+    public function addOrderCustomer($data){
+        return $this->add($data,'order_customer');
+    }
+    public function addOrderProduct($data){
+        return $this->add($data,'order_product');
+    }
 }

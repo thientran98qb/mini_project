@@ -80,4 +80,121 @@ class homeController extends Controller{
         }
         header("Location: ?module=showCart");
     }
+    function changeNumberAjax(){
+        $number=$_GET['numberr'];
+        $product_id=$_GET['product_id'];
+        $product=$this->HomeModel->getProductbyId($product_id);
+        if((isset($_SESSION['cart']['product'])) && $product['product_id']==$product_id){
+            $_SESSION['cart']['product'][$product['product_id']]['quantity']=$number;
+            if($product['product_sale_price']>0){
+                $price=$product['product_sale_price'];
+            }else{
+                $price=$product['product_price'];
+            }
+            $total_one_product=$price*$number;
+            $_SESSION['cart']['product'][$product['product_id']]['total_price_product']=$total_one_product;
+            totalCart();
+        }
+        $total_product=processPrice($total_one_product,"VND");
+        $total_order=processPrice($_SESSION['cart']['total_cart']['total'],'VND');
+        $sum=$_SESSION['cart']['total_cart']['total_quantity'];
+        echo json_encode(['total_product'=>$total_product,'total_order'=>$total_order,'sum'=>$sum]);
+    }
+    function checkout(){
+        if(isset($_SESSION['cart'])){
+            $cart=$_SESSION['cart']['product'];
+            $total_cart=$_SESSION['cart']['total_cart'];
+        }else{
+            $cart='';
+        }
+        $this->loadView('checkout',['cart'=>$cart,'total_cart'=>$total_cart]);
+    }
+    function processCheckout(){
+        global $error,$fullname,$email,$address,$tel,$note;
+        if(isset($_POST['checkout'])){
+            $error=array();
+            if(empty($_POST['fullname'])){
+                $error['error_fullname']="Please enter fullname";
+            }else{
+                $fullname=$_POST['fullname'];
+            }
+            if(empty($_POST['email'])){
+                $error['error_email']="Please enter email";
+            }else{
+                $email=$_POST['email'];
+            }
+            if(empty($_POST['address'])){
+                $error['error_address']="Please enter address";
+            }else{
+                $address=$_POST['address'];
+            }
+            if(empty($_POST['tel'])){
+                $error['error_tel']="Please enter tel";
+            }else{
+                $tel=$_POST['tel'];
+            }
+            if(empty($_POST['note'])){
+                $error['error_note']="Please enter note";
+            }else{
+                $note=$_POST['note'];
+            }
+            $payments=$_POST['payment-method'];
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $date = date('Y-m-d h:i:s', time());
+            if(!empty($error)){
+                $this->loadView('checkout',['error'=>$error]);
+            }else{
+                $data=[
+                    'customer_name'=>$fullname,
+                    'customer_email'=>$email,
+                    'customer_address'=>$address,
+                    'customer_phone'=>$tel
+                ];
+                $idInsert=$this->HomeModel->addCustomer($data);
+                $idCutomer=(int)$idInsert;
+                if($idCutomer>0){
+                    if($idCutomer>0){
+                        $dataOrderCustomer=[
+                            'customer_id'=>$idCutomer,
+                            'note'=>$note,
+                            'payments'=>$payments
+                        ];
+                        $idOrderCus=$this->HomeModel->addOrderCustomer($dataOrderCustomer);
+                        $idOrderCustomer=(int)$idOrderCus;
+                        if($idOrderCustomer>0){
+                            if(isset($_SESSION['cart']) && !empty($_SESSION['cart']['product'])){
+                                $cart=$_SESSION['cart']['product'];
+                                foreach ($cart as $key => $value) {
+                                    $dataCartoneProduct=[
+                                        'product_id'=>$cart[$key]['product_id'],
+                                        'quantity'=>$cart[$key]['quantity'],
+                                        'total_price'=>$cart[$key]['total_price_product']
+                                    ];
+                                    $idInsertOrder=$this->HomeModel->addOrderProduct($dataCartoneProduct);
+                                    $idOrder=(int)$idInsertOrder;
+                                    if($idOrder>0){
+                                        $dataOrders=[
+                                            'order_id'=>$idOrder,
+                                            'id'=>$idOrderCustomer,
+                                            'date_order'=>$date
+                                        ];
+                                        $idAddOrder=$this->HomeModel->addOrder($dataOrders);
+                                        $idOrderss=(bool)$idAddOrder;
+                                        if($idOrderss==true){
+                                            header("Location: .?controller=home&module=thank");
+                                            unset($_SESSION['cart']);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    function thank(){
+        $this->loadView('thank',[]);
+    }
 }
