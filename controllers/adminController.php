@@ -246,4 +246,11 @@ class adminController extends Controller{
         }
     }
     /* ====================== End Product ============================ */
+    /*==================Process Order=================== */
+    /*
+    SELECT * FROM `customers` 
+    INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id 
+    INNER JOIN orderss ON orderss.id=order_customer.id 
+    INNER JOIN order_product ON order_product.order_id=orderss.order_id WHERE orderss.id=13
+     */
 }

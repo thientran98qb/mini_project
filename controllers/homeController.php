@@ -154,10 +154,14 @@ class homeController extends Controller{
                 $idCutomer=(int)$idInsert;
                 if($idCutomer>0){
                     if($idCutomer>0){
+                        if(isset($_SESSION['cart']) && !empty($_SESSION['cart']['product'])){
+                            $total_orders=$_SESSION['cart']['total_cart']['total'];
+                        }
                         $dataOrderCustomer=[
                             'customer_id'=>$idCutomer,
                             'note'=>$note,
-                            'payments'=>$payments
+                            'payments'=>$payments,
+                            'total_orders'=>$total_orders
                         ];
                         $idOrderCus=$this->HomeModel->addOrderCustomer($dataOrderCustomer);
                         $idOrderCustomer=(int)$idOrderCus;
