@@ -4,6 +4,7 @@ class adminController extends Controller{
     {
         $this->loadLib('validation');
         $this->loadModel('Admin');
+        $this->loadLib('sendmail');
     }
     function login(){
         $this->loadView('login',[],'admin');
@@ -280,25 +281,25 @@ class adminController extends Controller{
         $data=[
             'status'=>$status
         ];
-        $this->AdminModel->updateStatus($data,$id);
-        header("Location: .?controller=admin&module=home");
+        $this->AdminModel->updateStatus($data,$id);                
+         header("Location: .?controller=admin&module=home");     
     }
-    function cancelOrder(){
-        $id=isset($_GET['id']) ? $_GET['id'] : '';
-        $status=isset($_GET['status']) ? $_GET['status'] : 0;
-        $data=[
-            'status'=>$status
-        ];
-        $this->AdminModel->updateStatus($data,$id);
-        header("Location: .?controller=admin&module=home");
+function cancelOrder(){
+    $id=isset($_GET['id']) ? $_GET['id'] : '';
+    $status=isset($_GET['status']) ? $_GET['status'] : 0;
+    $data=[
+    'status'=>$status
+    ];
+    $this->AdminModel->updateStatus($data,$id);
+    header("Location: .?controller=admin&module=home");
+}
+//Xoa orders,orderproduct,order_customer,customer
+function deleteOrder(){
+    $customer_id=isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
+    $id=isset($_GET['id']) ? $_GET['id'] : '';
+    if($this->AdminModel->deleteOrderr($id,$customer_id)==true){
+    echo json_encode(['flag'=>true]);
     }
-    //Xoa orders,orderproduct,order_customer,customer
-    function deleteOrder(){
-        $customer_id=isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
-        $id=isset($_GET['id']) ? $_GET['id'] : '';
-        if($this->AdminModel->deleteOrderr($id,$customer_id)==true){
-            echo json_encode(['flag'=>true]);
-        }
-        json_encode(['flag'=>false]);
+    json_encode(['flag'=>false]);
     }
 }

@@ -25,6 +25,10 @@
                     <label for="">Dia Chi</label>
                     <p class="form-control"><?php echo $detailCustomer['customer_address']; ?></p>
                 </div>
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <p class="form-control"><?php echo $detailCustomer['customer_email']; ?></p>
+                </div>
                 <div class="card">
                     <label for="">San Pham</label>
                     <table class="table">
@@ -96,7 +100,7 @@
                 </div>
                 <div class="form-group">
                     <?php if($detailCustomer['status']!=1){?>
-                        <a href=".?controller=admin&module=acceptOrder&status=1&id=<?php echo $detailCustomer['customer_id']; ?>" class="btn btn-success">Xác nhận</a>
+                        <a href=".?controller=admin&module=acceptOrder&order_id=<?php echo $detailCustomer['order_id']; ?>&id_c=<?php echo $detailCustomer['id']; ?>&status=1&id=<?php echo $detailCustomer['customer_id']; ?>" class="btn btn-success">Xác nhận</a>
                     <?php } ?>
                     <?php if($detailCustomer['status']!=2 && $detailCustomer['status']!=1){?>
                         <a href=".?controller=admin&module=cancelOrder&status=2&id=<?php echo $detailCustomer['customer_id']; ?>"  class="btn btn-danger">Huy Don Hang</a>

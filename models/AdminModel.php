@@ -74,7 +74,7 @@ class AdminModel extends Model{
     }
     //process dashboard
     public function getCustomer($start,$step){
-        return $this->getAll("SELECT * FROM customers INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN payments ON payments.payment_id=order_customer.payment_id LIMIT $start,$step");
+        return $this->getAll("SELECT * FROM customers INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN orderss ON order_customer.id=orderss.id INNER JOIN payments ON payments.payment_id=order_customer.payment_id LIMIT $start,$step");
     }
     public function totalgetCustomer(){
         $stmt=$this->conn->prepare("SELECT * FROM customers INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN payments ON payments.payment_id=order_customer.payment_id");
@@ -87,7 +87,7 @@ class AdminModel extends Model{
         return $count;
     }
     public function getCustomerbyId($order_id){
-        return $this->getById("SELECT order_customer.status,customers.customer_id,customers.customer_name,customers.customer_address,order_product.product_id,orderss.date_order,order_customer.total_orders FROM `customers` INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN orderss ON orderss.id=order_customer.id INNER JOIN order_product ON order_product.order_id=orderss.order_id WHERE orderss.id=$order_id
+        return $this->getById("SELECT order_product.order_id,order_customer.status,order_customer.id,customers.customer_id,customers.customer_name,customers.customer_email,customers.customer_address,order_product.product_id,orderss.date_order,order_customer.total_orders FROM `customers` INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN orderss ON orderss.id=order_customer.id INNER JOIN order_product ON order_product.order_id=orderss.order_id WHERE orderss.id=$order_id
         ");
     }
     public function getProductbyId($order_id){

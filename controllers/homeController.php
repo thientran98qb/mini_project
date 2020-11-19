@@ -5,6 +5,7 @@ class homeController extends Controller{
         $this->loadModel('Home');
         $this->loadLib('validation');
         $this->loadLib('cart');
+        $this->loadLib('sendmail');
     }
     public function index(){
         $data=$this->HomeModel->getCategory();
@@ -182,6 +183,7 @@ class homeController extends Controller{
                                         $idAddOrder=$this->HomeModel->addOrder($dataOrders);
                                         $idOrderss=(bool)$idAddOrder;
                                         if($idOrderss==true){
+                                            // send_mail($email,$fullname,"Thank you order my website","Thank you");
                                             header("Location: .?controller=home&module=thank");
                                             unset($_SESSION['cart']);
                                         }
