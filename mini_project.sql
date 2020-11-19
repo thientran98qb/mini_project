@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 18, 2020 at 05:44 AM
+-- Generation Time: Nov 19, 2020 at 09:31 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -64,13 +64,9 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_email`, `customer_address`, `customer_phone`) VALUES
-(9, 'Thiện Đình', 'thientran98qb@gmail.com', 'Đà Nẵng', '0815858468'),
-(10, 'Như Ngọc', 'trandinhthien@dtu.edu.vn', 'Đà Nẵng', '0815858468'),
-(11, 'Thiện Vip', 'admin@gmail.com', 'Đà Nẵng', '012345678'),
-(12, 'Admin', 'admin@gmail.com', 'Hà Nội', '01456876'),
-(13, 'abcde', 'trandinhthien@dtu.edu.vn', 'Hà Nội', '0815858468'),
-(14, 'Phan Kiên', 'kienhaha@gmail.com', 'Quảng Bình', '0125468975'),
-(15, 'Bửu Hoành', 'buuhaha123@gmail.com', 'Quảng Bình', '0124687956');
+(35, 'Thiện Đình', 'thientran98qb@gmail.com', 'Đà Nẵng', '0815858468'),
+(36, 'Thiện Đình', 'thientran98qb@gmail.com', 'k27/7 Tiểu La ,Đà Nẵng', '0815858468'),
+(37, 'Phong Trần', 'thientran98qb@gmail.com', 'Đà Nẵng', '0815858468');
 
 -- --------------------------------------------------------
 
@@ -79,9 +75,9 @@ INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_email`, `cust
 --
 
 CREATE TABLE `orderss` (
+  `orderr_id` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
-  `status` int(11) DEFAULT 0,
   `date_order` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -89,17 +85,10 @@ CREATE TABLE `orderss` (
 -- Dumping data for table `orderss`
 --
 
-INSERT INTO `orderss` (`id`, `order_id`, `status`, `date_order`) VALUES
-(12, 3, 0, NULL),
-(12, 4, 0, NULL),
-(13, 5, 0, NULL),
-(13, 6, 0, NULL),
-(13, 7, 0, NULL),
-(14, 8, 0, NULL),
-(15, 9, 0, NULL),
-(16, 10, 0, NULL),
-(17, 11, 0, '2020-11-18 00:00:00'),
-(18, 12, 0, '2020-11-18 11:40:43');
+INSERT INTO `orderss` (`orderr_id`, `id`, `order_id`, `date_order`) VALUES
+(31, 37, 33, '2020-11-19 02:32:43'),
+(32, 38, 34, '2020-11-19 02:36:15'),
+(33, 39, 35, '2020-11-19 02:37:46');
 
 -- --------------------------------------------------------
 
@@ -110,22 +99,20 @@ INSERT INTO `orderss` (`id`, `order_id`, `status`, `date_order`) VALUES
 CREATE TABLE `order_customer` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `note` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `payments` int(11) NOT NULL
+  `note` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `payment_id` int(11) NOT NULL,
+  `total_orders` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `order_customer`
 --
 
-INSERT INTO `order_customer` (`id`, `customer_id`, `note`, `payments`) VALUES
-(12, 9, 'Cẩn thận', 1),
-(13, 10, 'Dễ vỡ', 0),
-(14, 11, 'Bộc cẩn thận', 1),
-(15, 12, 'Giao nhanh', 1),
-(16, 13, 'âvb', 1),
-(17, 14, 'dán màn hình ', 1),
-(18, 15, 'Giấu tên giúp em', 1);
+INSERT INTO `order_customer` (`id`, `customer_id`, `note`, `payment_id`, `total_orders`, `status`) VALUES
+(37, 35, '', 2, 10410000, 1),
+(38, 36, '', 2, 4780000, 1),
+(39, 37, '', 1, 25500000, 1);
 
 -- --------------------------------------------------------
 
@@ -137,24 +124,37 @@ CREATE TABLE `order_product` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `total_price` int(11) NOT NULL
+  `total_price` int(11) NOT NULL,
+  `id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `order_product`
 --
 
-INSERT INTO `order_product` (`order_id`, `product_id`, `quantity`, `total_price`) VALUES
-(3, 63, 1, 371900),
-(4, 57, 1, 2450000),
-(5, 63, 1, 371900),
-(6, 57, 1, 2450000),
-(7, 56, 1, 4780000),
-(8, 38, 1, 31200000),
-(9, 60, 1, 4320000),
-(10, 54, 1, 1050000),
-(11, 53, 1, 23500000),
-(12, 65, 1, 125000);
+INSERT INTO `order_product` (`order_id`, `product_id`, `quantity`, `total_price`, `id`) VALUES
+(33, 62, 1, 10410000, 37),
+(34, 56, 1, 4780000, 38),
+(35, 41, 1, 25500000, 39);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL,
+  `payment_name` varchar(60) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`payment_id`, `payment_name`) VALUES
+(1, 'Thanh toán momo/banking'),
+(2, 'Thanh toán tại nhà');
 
 -- --------------------------------------------------------
 
@@ -260,18 +260,34 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`);
 
 --
+-- Indexes for table `orderss`
+--
+ALTER TABLE `orderss`
+  ADD PRIMARY KEY (`orderr_id`),
+  ADD KEY `fk_order_cus` (`id`),
+  ADD KEY `fk_order_user` (`order_id`);
+
+--
 -- Indexes for table `order_customer`
 --
 ALTER TABLE `order_customer`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_customer` (`customer_id`);
+  ADD KEY `fk_customer_order` (`customer_id`),
+  ADD KEY `fk_payment` (`payment_id`);
 
 --
 -- Indexes for table `order_product`
 --
 ALTER TABLE `order_product`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `fk_order_product` (`product_id`);
+  ADD KEY `fk_order_product` (`product_id`),
+  ADD KEY `fk_id` (`id`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`payment_id`);
 
 --
 -- Indexes for table `products`
@@ -307,19 +323,31 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `orderss`
+--
+ALTER TABLE `orderss`
+  MODIFY `orderr_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `order_customer`
 --
 ALTER TABLE `order_customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `order_product`
 --
 ALTER TABLE `order_product`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -344,9 +372,24 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `orderss`
+--
+ALTER TABLE `orderss`
+  ADD CONSTRAINT `fk_order_cus` FOREIGN KEY (`id`) REFERENCES `order_customer` (`id`),
+  ADD CONSTRAINT `fk_order_user` FOREIGN KEY (`order_id`) REFERENCES `order_product` (`order_id`);
+
+--
+-- Constraints for table `order_customer`
+--
+ALTER TABLE `order_customer`
+  ADD CONSTRAINT `fk_customer_order` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
+  ADD CONSTRAINT `fk_payment` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`payment_id`);
+
+--
 -- Constraints for table `order_product`
 --
 ALTER TABLE `order_product`
+  ADD CONSTRAINT `fk_id` FOREIGN KEY (`id`) REFERENCES `order_customer` (`id`),
   ADD CONSTRAINT `fk_order_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
 
 --
