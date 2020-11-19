@@ -106,7 +106,16 @@ class AdminModel extends Model{
     public function calVuene(){
         return $this->getById("SELECT SUM(order_customer.total_orders) as venue FROM `order_customer` WHERE order_customer.status=1");
     }
-    public function deleteOrder($id){
-        return $this->delete('orderss','id',$id);
+    public function deleteOrderr($id,$customer_id){
+        $order= $this->delete('orderss','id',$id);
+        if($order==true){
+            $order_product=$this->delete('order_product','id',$id);
+            if($order_product==true){
+                $order_customer=$this->delete('order_customer','id',$id);
+                if($order_customer==true){
+                    return $this->delete('customers','customer_id',$customer_id);
+                }
+            }
+        }
     }
 }

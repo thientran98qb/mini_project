@@ -293,4 +293,12 @@ class adminController extends Controller{
         header("Location: .?controller=admin&module=home");
     }
     //Xoa orders,orderproduct,order_customer,customer
+    function deleteOrder(){
+        $customer_id=isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
+        $id=isset($_GET['id']) ? $_GET['id'] : '';
+        if($this->AdminModel->deleteOrderr($id,$customer_id)==true){
+            echo json_encode(['flag'=>true]);
+        }
+        json_encode(['flag'=>false]);
+    }
 }

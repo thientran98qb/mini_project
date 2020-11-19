@@ -251,5 +251,43 @@ $(document).ready(function(){
             });
         });
         
-    })
+    });
+    $(document).on("click","#deleteOrder",function(e){
+        e.preventDefault();
+        let id=$(this).data('id');
+        let customer_id=$(this).data('customerid');
+        swal.fire({
+            title: "Are you sure?",
+            text: "You will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+            $.ajax({
+                url: ".?controller=admin&module=deleteOrder",
+                type: "GET",
+                data: {
+                    id:id,customer_id:customer_id
+                },
+                dataType: "JSON",
+                success: function (results) {
+                    if(results.flag==true){
+                        swal.fire("Done!", "It was succesfully deleted!", "success");
+                        setTimeout(function(){
+                            window.location.replace(".?controller=admin&module=home");
+                        },1500);
+                    } else{
+                        swal.fire("Error deleting!", "Please try again", "error");
+                    }
+                },
+                error: function () {
+                    swal.fire("Error deleting!", "Please try again", "error");
+                }
+            });
+        });
+        
+    });
 });

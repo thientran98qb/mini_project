@@ -10,7 +10,7 @@
     <link href="assets/reset.css" rel="stylesheet" type="text/css"/>
     <link href="assets/css/admin.css" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
-    <title>Document</title>
+    <title>Admin ThienStrore</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">

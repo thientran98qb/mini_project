@@ -83,18 +83,18 @@
                             </span>
                         <?php }elseif($customer['status']==1){ ?>
                             <span class="badge badge-success">
-                            Da Xac Nhan
+                            Đã xác nhận
                             </span>
                         <?php }else{?>
                             <span class="badge badge-danger">
-                            Don Hang Huy
+                            Đơn hàng hủy
                             </span>                 
                         <?php }?>
                         </td>
                         <td><?php echo processPrice($customer['total_orders'],'VND'); ?></p></td>
                         <td>
                             <a href=".?controller=admin&module=detailOrder&order_id=<?php echo $customer['id']; ?>" class="btn btn-success btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a>
-                            <a href=".?controller=admin&module=deleteOrder&id=<?php echo $customer['id']; ?>" class="btn btn-danger btn-sm rounded-0 text-white" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
+                            <a href="" data-id="<?php echo $customer['id']; ?>" data-customerid="<?php echo $customer['customer_id']; ?>" class="btn btn-danger btn-sm rounded-0 text-white" id="deleteOrder" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 <?php }?>

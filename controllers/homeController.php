@@ -168,7 +168,8 @@ class homeController extends Controller{
                                     $dataCartoneProduct=[
                                         'product_id'=>$cart[$key]['product_id'],
                                         'quantity'=>$cart[$key]['quantity'],
-                                        'total_price'=>$cart[$key]['total_price_product']
+                                        'total_price'=>$cart[$key]['total_price_product'],
+                                        'id'=>$idOrderCustomer
                                     ];
                                     $idInsertOrder=$this->HomeModel->addOrderProduct($dataCartoneProduct);
                                     $idOrder=(int)$idInsertOrder;
