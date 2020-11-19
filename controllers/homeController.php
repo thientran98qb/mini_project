@@ -156,7 +156,7 @@ class homeController extends Controller{
                         $dataOrderCustomer=[
                             'customer_id'=>$idCutomer,
                             'note'=>$note,
-                            'payments'=>$payments,
+                            'payment_id'=>$payments,
                             'total_orders'=>$total_orders
                         ];
                         $idOrderCus=$this->HomeModel->addOrderCustomer($dataOrderCustomer);

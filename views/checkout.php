@@ -70,11 +70,11 @@
                                     <div id="payment-checkout-wp">
                                         <ul id="payment_methods">
                                             <li>
-                                                <input type="radio" checked="checked" id="direct-payment" name="payment-method" value="0">
+                                                <input type="radio" checked="checked" id="direct-payment" name="payment-method" value="1">
                                                 <label for="direct-payment">Internet Banking/Momo</label>
                                             </li>
                                             <li>
-                                                <input type="radio" id="payment-home" name="payment-method" value="1">
+                                                <input type="radio" id="payment-home" name="payment-method" value="2">
                                                 <label for="payment-home">Thanh toán tại nhà</label>
                                             </li>
                                         </ul>

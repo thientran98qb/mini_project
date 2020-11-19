@@ -66,9 +66,7 @@ class adminController extends Controller{
         unset($_SESSION['fullname']);
         header("Location: .?controller=admin&module=login");
     }
-    function home(){
-        $this->loadView('home',[],'admin');
-    }
+
      /*======================Process Category CRUD================*/
     function displaycategory(){
         $category=$this->AdminModel->getAllCategory();
@@ -253,4 +251,46 @@ class adminController extends Controller{
     INNER JOIN orderss ON orderss.id=order_customer.id 
     INNER JOIN order_product ON order_product.order_id=orderss.order_id WHERE orderss.id=13
      */
+    /*===Process orders=== */
+    function home(){
+        $current_page=isset($_GET['page']) ? $_GET['page'] : 1;
+        $limit=5;
+        $start=($current_page-1)*$limit;
+        $total_customer=$this->AdminModel->totalgetCustomer();
+        $total_page=ceil($total_customer/$limit);
+        $customers=$this->AdminModel->getCustomer($start,$limit);
+        $countOrderSuccess=$this->AdminModel->countOrder(1);
+        $countOderFail=$this->AdminModel->countOrder(2);
+        $countOrderWating=$this->AdminModel->countOrder(0);
+        $venue=$this->AdminModel->calVuene();
+        $count=[
+          $countOrderSuccess,$countOderFail,$countOrderWating,$venue
+        ];
+        $this->loadView('dashboard',['customers'=>$customers,'total_page'=>$total_page,'current_page'=>$current_page,'count'=>$count],'admin/dashboards');
+    }
+    public function detailOrder(){
+        $order_id=(isset($_GET['order_id'])) ? $_GET['order_id'] : '';
+        $detailCustomer=$this->AdminModel->getCustomerbyId($order_id);
+        $product=$this->AdminModel->getProductbyId($order_id);
+        $this->loadView('detail_customer',['detailCustomer'=>$detailCustomer,'products'=>$product],'admin/dashboards');
+    }
+    function acceptOrder(){
+        $id=isset($_GET['id']) ? $_GET['id'] : '';
+        $status=isset($_GET['status']) ? $_GET['status'] : 0;
+        $data=[
+            'status'=>$status
+        ];
+        $this->AdminModel->updateStatus($data,$id);
+        header("Location: .?controller=admin&module=home");
+    }
+    function cancelOrder(){
+        $id=isset($_GET['id']) ? $_GET['id'] : '';
+        $status=isset($_GET['status']) ? $_GET['status'] : 0;
+        $data=[
+            'status'=>$status
+        ];
+        $this->AdminModel->updateStatus($data,$id);
+        header("Location: .?controller=admin&module=home");
+    }
+    //Xoa orders,orderproduct,order_customer,customer
 }

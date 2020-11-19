@@ -61,7 +61,7 @@ class AdminModel extends Model{
         return $this->add($data,'products');
     }
     public function detailProductt($product_id){
-        return $this->getById("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id WHERE products.product_id=$product_id");
+        return $this->getById("SELECT * FROM products INNER JOIN categories ON products.category_id=categories.category_id  WHERE products.product_id=$product_id");
     }
     public function deleteProductById($product_id){
         return $this->delete('products','product_id',$product_id);
@@ -71,5 +71,42 @@ class AdminModel extends Model{
     }
     public function countProduct(){
         return $this->getCount("products");
+    }
+    //process dashboard
+    public function getCustomer($start,$step){
+        return $this->getAll("SELECT * FROM customers INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN payments ON payments.payment_id=order_customer.payment_id LIMIT $start,$step");
+    }
+    public function totalgetCustomer(){
+        $stmt=$this->conn->prepare("SELECT * FROM customers INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN payments ON payments.payment_id=order_customer.payment_id");
+        $stmt->execute();
+        if($stmt->rowCount() >0 ){
+            $count=$stmt->rowCount();
+        }else{
+            $count=0;
+        }
+        return $count;
+    }
+    public function getCustomerbyId($order_id){
+        return $this->getById("SELECT order_customer.status,customers.customer_id,customers.customer_name,customers.customer_address,order_product.product_id,orderss.date_order,order_customer.total_orders FROM `customers` INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN orderss ON orderss.id=order_customer.id INNER JOIN order_product ON order_product.order_id=orderss.order_id WHERE orderss.id=$order_id
+        ");
+    }
+    public function getProductbyId($order_id){
+        return $this->getAll("SELECT order_product.product_id,order_product.order_id FROM `customers` INNER JOIN order_customer ON customers.customer_id=order_customer.customer_id INNER JOIN orderss ON orderss.id=order_customer.id INNER JOIN order_product ON order_product.order_id=orderss.order_id WHERE orderss.id=$order_id
+        ");
+    }
+    public function getProductbyOrder_id($product_id,$order_id){
+        return $this->getById("SELECT * FROM products INNER JOIN order_product ON products.product_id=order_product.product_id WHERE order_product.product_id=$product_id AND order_product.order_id=$order_id");
+    }
+    public function updateStatus($data,$id){
+        $this->update($data,'order_customer','customer_id',$id);
+    }
+    public function countOrder($status){
+        return $this->getById("SELECT COUNT(order_customer.status) as countStatus FROM `order_customer` WHERE order_customer.status=$status");
+    }
+    public function calVuene(){
+        return $this->getById("SELECT SUM(order_customer.total_orders) as venue FROM `order_customer` WHERE order_customer.status=1");
+    }
+    public function deleteOrder($id){
+        return $this->delete('orderss','id',$id);
     }
 }
